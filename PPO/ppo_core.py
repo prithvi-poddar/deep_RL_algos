@@ -65,7 +65,8 @@ class ActorNetworkCategorical(nn.Module):
 
         for j in range(len(sizes)-1):
             act = activation if j < len(sizes)-2 else output_activation
-            layers += [nn.Linear(sizes[j], sizes[j+1], act)]
+            layers += [nn.Linear(sizes[j], sizes[j+1])]
+            layers += [act]
 
         self.actor = nn.Sequential(*layers)
         self.optimizer = optim.Adam(self.parameters(), lr=alpha)
@@ -101,7 +102,8 @@ class ActorNetworkGaussian(nn.Module):
 
         for j in range(len(sizes)-1):
             act = activation if j < len(sizes)-2 else output_activation
-            layers += [nn.Linear(sizes[j], sizes[j+1], act)]
+            layers += [nn.Linear(sizes[j], sizes[j+1])]
+            layers += [act]
 
         self.actor = nn.Sequential(*layers)
         self.optimizer = optim.Adam(self.parameters(), lr=alpha)
@@ -126,6 +128,7 @@ class CriticNetwork(nn.Module):
                 activation=nn.ReLU()):
         super(CriticNetwork, self).__init__()
 
+        self.chkpt_dir = chkpt_dir
         self.device = T.device('cuda:0' if T.cuda.is_available() else 'cpu')
         self.checkpoint_file = os.path.join(chkpt_dir, 'critic_torch_ppo')
 
@@ -156,7 +159,7 @@ class CriticNetwork(nn.Module):
 
 class Agent:
     def __init__(self, n_actions, input_dims, gamma=0.99, alpha=0.0003, gae_lambda=0.95,
-            policy_clip=0.2, batch_size=64, n_epochs=10, action_space='continuous', **kwargs):
+            policy_clip=0.1, batch_size=64, n_epochs=10, action_space='continuous', **kwargs):
         self.gamma = gamma
         self.policy_clip = policy_clip
         self.n_epochs = n_epochs

@@ -137,7 +137,8 @@ class CriticNetwork(nn.Module):
 
         for j in range(len(sizes)-1):
             act = activation if j < len(sizes)-2 else nn.Identity()
-            layers += [nn.Linear(sizes[j], sizes[j+1], act)]
+            layers += [nn.Linear(sizes[j], sizes[j+1])]
+            layers += [act]
 
         self.critic = nn.Sequential(*layers)
         self.optimizer = optim.Adam(self.parameters(), lr=alpha)

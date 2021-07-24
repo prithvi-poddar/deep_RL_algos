@@ -1,6 +1,6 @@
 import gym
 import numpy as np
-from ppo_torch import Agent
+from ppo_core import Agent
 from utils import plot_learning_curve
 
 if __name__ == '__main__':
@@ -9,15 +9,15 @@ if __name__ == '__main__':
     batch_size = 5
     n_epochs = 4
     alpha = 0.0003
-    # print(env.observation_space.shape)
-    # agent = Agent(n_actions=env.action_space.n, batch_size=batch_size, 
-    #                 alpha=alpha, n_epochs=n_epochs, 
-    #                 input_dims=env.observation_space.shape[0],
-    #                 action_space='discrete')
-
+    print(env.observation_space.shape)
     agent = Agent(n_actions=env.action_space.n, batch_size=batch_size, 
                     alpha=alpha, n_epochs=n_epochs, 
-                    input_dims=env.observation_space.shape)
+                    input_dims=env.observation_space.shape[0],
+                    action_space='discrete')
+
+    # agent = Agent(n_actions=env.action_space.n, batch_size=batch_size, 
+    #                 alpha=alpha, n_epochs=n_epochs, 
+    #                 input_dims=env.observation_space.shape)
     n_games = 1000
 
     figure_file = 'plots/cartpole.png'

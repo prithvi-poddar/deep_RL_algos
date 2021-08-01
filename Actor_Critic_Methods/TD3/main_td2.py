@@ -4,7 +4,7 @@ from td3_torch import Agent
 from utils import plot_learning_curve
 
 if __name__ == '__main__':
-    env = gym.make('BipedalWalker-v2')
+    env = gym.make('BipedalWalker-v3')
     #env = gym.make('LunarLanderContinuous-v2')
     agent = Agent(alpha=0.001, beta=0.001,
                   input_dims=env.observation_space.shape, tau=0.005,

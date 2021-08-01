@@ -49,7 +49,7 @@ class Agent():
     def choose_action(self, observation):
         if self.time_step < self.warmup:
             mu = T.tensor(np.random.normal(
-                scale=self.noise, size=(self.n_actions,)))
+                scale=self.noise, size=(self.n_actions,))).to(self.actor.device)
         else:
             state = T.tensor(observation, dtype=T.float).to(self.actor.device)
             mu = self.actor.forward(state).to(self.actor.device)
